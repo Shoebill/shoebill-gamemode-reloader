@@ -1,0 +1,7 @@
+class: net.gtaun.shoebill.GamemodeReloader
+name: Gamemodereloader
+version: 1.0-SNAPSHOT
+buildNumber: 0
+buildDate: Unknown
+authors: 123marvin123 & MK124
+description: A simple Gamemodereloader for Shoebill Gamemodes
