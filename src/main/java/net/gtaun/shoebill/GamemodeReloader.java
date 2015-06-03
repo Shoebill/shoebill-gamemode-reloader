@@ -3,7 +3,6 @@ package net.gtaun.shoebill;
 import net.gtaun.shoebill.event.resource.ResourceLoadEvent;
 import net.gtaun.shoebill.resource.Gamemode;
 import net.gtaun.shoebill.resource.Plugin;
-import net.gtaun.util.event.EventManagerNode;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,15 +15,13 @@ import java.nio.file.*;
 public class GamemodeReloader extends Plugin {
 
     private Thread watcherThread;
-    private EventManagerNode eventManager;
 
     @Override
     protected void onEnable() throws Throwable {
-        eventManager = getEventManager().createChildNode();
-        eventManager.registerHandler(ResourceLoadEvent.class, event -> {
-            if(event.getResource() instanceof Gamemode) {
+        getEventManager().registerHandler(ResourceLoadEvent.class, event -> {
+            if (event.getResource() instanceof Gamemode) {
                 Gamemode gamemode = (Gamemode) event.getResource();
-                if(watcherThread == null) {
+                if (watcherThread == null) {
                     try {
                         File file = gamemode.getDescription().getFile();
                         File dir = file.getParentFile();
@@ -44,10 +41,11 @@ public class GamemodeReloader extends Plugin {
                                         }
                                     }
                                 }
-                            } catch (InterruptedException e) {}
+                            } catch (InterruptedException e) {
+                            }
                         });
                         watcherThread.start();
-                    } catch(IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
@@ -59,6 +57,5 @@ public class GamemodeReloader extends Plugin {
     protected void onDisable() throws Throwable {
         watcherThread.interrupt();
         watcherThread = null;
-        eventManager.destroy();
     }
 }
