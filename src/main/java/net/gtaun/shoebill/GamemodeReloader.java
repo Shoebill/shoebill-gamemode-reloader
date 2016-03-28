@@ -35,6 +35,7 @@ public class GamemodeReloader extends Plugin {
                                         WatchEvent<Path> watchEvent = (WatchEvent<Path>) ev;
                                         Path path = watchEvent.context();
                                         if (path.toFile().getName().equals(file.getName())) {
+                                            watchService.close();
                                             Thread.sleep(500); //Sleep for half a second to allow the filewriting to finish.
                                             gamemode.getLogger().info("Gamemode has been modified. Reloading...");
                                             Shoebill.get().runOnSampThread(() -> Shoebill.get().reload());
@@ -42,7 +43,7 @@ public class GamemodeReloader extends Plugin {
                                         }
                                     }
                                 }
-                            } catch (InterruptedException ignored) {
+                            } catch (Exception ignored) {
                             }
                         });
                         watcherThread.start();
